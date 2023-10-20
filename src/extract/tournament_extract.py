@@ -36,4 +36,4 @@ def extract_tournament():
 if __name__ == '__main__':
     for passes in extract_tournament():
         print(passes)
-        print('---------------------------')
+        print('----------------')
