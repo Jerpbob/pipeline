@@ -3,7 +3,7 @@ import json
 
 def extract_tournament():
     '''
-    Extracts id, fullName, variant, perf(bullet, rapid, etc.), maxRating(if applicable), winner id and name, duration
+    Extracts tournament id, fullName, variant, perf(bullet, rapid, etc.), maxRating(if applicable), winner id and name, duration
     from url and returns information as lists within a list for inputting into a csv file
     '''
     response = requests.get('https://lichess.org/api/tournament')
