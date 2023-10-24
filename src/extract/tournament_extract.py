@@ -1,5 +1,7 @@
 import requests
 import json
+import csv
+from datetime import datetime
 
 def extract_tournament():
     '''
@@ -33,7 +35,23 @@ def extract_tournament():
     return all_passes
 
 
+def tournament_to_csv(tournament):
+    current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    str_current_datetime = str(current_datetime)
+    file_name = 'tournament/' + str_current_datetime + '.csv'
+
+    with open(file_name, 'w') as fp:
+        csvw = csv.writer(fp, delimiter='|')
+        csvw.writerow(['tournament id', 'fullName', 'variant', 'perf', 'maxRating', 'winner id', 'winner name', 'duration'])
+        csvw.writerows(tournament)
+    
+    fp.close()
+
+
 if __name__ == '__main__':
-    for passes in extract_tournament():
+    array = extract_tournament()
+    for passes in array:
         print(passes)
         print('----------------')
+    
+    tournament_to_csv(array)
