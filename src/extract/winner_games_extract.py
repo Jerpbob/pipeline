@@ -24,9 +24,10 @@ def extract_winner_games(winner, tournament_id):
     for json_item in response_json:
         try:
             current_pass = []
-
+    
             game_info = json.loads(json_item)
             current_pass.append(tournament_id)
+            current_pass.append(winner)
             current_pass.append(game_info['id'])
             current_pass.append(game_info['variant'])
             current_pass.append(round(((game_info['lastMoveAt'] - game_info['createdAt']) / 60000), 2))
@@ -45,6 +46,6 @@ def extract_winner_games(winner, tournament_id):
     return all_passes
 
 if __name__ == '__main__':
-    for passes in extract_winner_games('mvarela', 'eztiV8ax'):
+    for passes in extract_winner_games('indeec', '0tn2GQSi'):
         print(passes)
         print('----------------')
