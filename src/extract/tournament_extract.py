@@ -1,6 +1,8 @@
 import requests
 import json
 import csv
+import configparser
+import boto3
 from datetime import datetime
 
 def extract_tournament():
@@ -36,9 +38,11 @@ def extract_tournament():
 
 
 def tournament_to_csv(tournament):
-    current_datetime = datetime.now().strftime("%Y-%m-%d %H-%M-%S")
+    current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     str_current_datetime = str(current_datetime)
     file_name = 'tournament/' + str_current_datetime + '.csv'
+
+    print('Creating file...')
 
     with open(file_name, 'w') as fp:
         csvw = csv.writer(fp, delimiter='|')
@@ -47,11 +51,33 @@ def tournament_to_csv(tournament):
     
     fp.close()
 
+    return file_name
+
+def csv_to_s3(csv_file):
+    parser = configparser.ConfigParser()
+    parser.read("/home/jerp/repos/pipeline/pipeline.conf")
+    access_key = parser.get('aws_boto_credentials', 'access_key')
+    secret_key = parser.get('aws_boto_credentials', 'secret_key')
+    bucket_name = parser.get('aws_boto_credentials', 'bucket_name')
+
+    print('Connecting to s3...')
+
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id = access_key,
+        aws_secret_access_key = secret_key
+    )
+
+    print('Uploading file...')
+
+    s3.upload_file(
+        csv_file,
+        bucket_name,
+        csv_file
+    )
+
 
 if __name__ == '__main__':
     array = extract_tournament()
-    for passes in array:
-        print(passes)
-        print('----------------')
-    
-    tournament_to_csv(array)
+    csv_file = tournament_to_csv(array)
+    csv_to_s3(csv_file)
