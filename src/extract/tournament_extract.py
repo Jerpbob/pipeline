@@ -36,8 +36,13 @@ def extract_tournament():
 
 
 def tournament_to_csv(tournament):
+    '''
+    Takes in a tournament argument and turns it into a csv file w/ a name corresponding to the current time it was made
+    '''
     current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     str_current_datetime = str(current_datetime)
+
+    # Naming convention to better organize files that are extracted ie. tournament/, winner_games/, etc.
     file_name = 'tournament/' + str_current_datetime + '.csv'
 
     print('Creating file...')

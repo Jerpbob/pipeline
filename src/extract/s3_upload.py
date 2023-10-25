@@ -2,6 +2,10 @@ import configparser
 import boto3
 
 def csv_to_s3(csv_file):
+    '''
+    Takes a csv file as an argument and uploads it to an s3 bucket based on the
+    information present in pipeline.conf(file not uploaded to github for security reasons)
+    '''
     parser = configparser.ConfigParser()
     parser.read("/home/jerp/repos/pipeline/pipeline.conf")
     access_key = parser.get('aws_boto_credentials', 'access_key')
@@ -26,7 +30,7 @@ def csv_to_s3(csv_file):
 
 if __name__ == '__main__':
     from tournament_extract import extract_tournament, tournament_to_csv
-    
+
     array = extract_tournament()
     csv_file = tournament_to_csv(array)
     csv_to_s3(csv_file)
