@@ -55,7 +55,7 @@ def tournament_to_csv(tournament):
 
     with open(file_name, 'w') as fp:
         csvw = csv.writer(fp, delimiter='|')
-        csvw.writerow(['tournament id', 'fullName', 'variant', 'perf', 'maxRating', 'winner id', 'winner name', 'duration', 'startsAt', 'finishesAt'])
+        csvw.writerow(['tournament_id', 'fullName', 'variant', 'perf', 'maxRating', 'winner_id', 'winner_name', 'duration', 'startsAt', 'finishesAt'])
         csvw.writerows(tournament)
     
     fp.close()
@@ -67,5 +67,5 @@ if __name__ == '__main__':
     array = extract_tournament()
     csv_file = tournament_to_csv(array)
 
-    print('Extracted info: ' + array)
-    print('Name of csv file: ' + csv_file)
+    print('Extracted info: ',  array)
+    print('CSV file name: ' + csv_file)
