@@ -1,3 +1,4 @@
 env
 *.conf
 src/extract/tournament
+src/extract/games
