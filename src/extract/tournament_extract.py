@@ -28,6 +28,12 @@ def extract_tournament():
             current_pass.append(response['winner']['id'])
             current_pass.append(response['winner']['name'])
             current_pass.append((response['finishesAt'] - response['startsAt']) / 60000)
+
+            #Converting the unix time into a readable date
+            timestamp_start = datetime.fromtimestamp(response['startsAt'] / 1000)
+            current_pass.append(timestamp_start.strftime('%Y-%m-%d %H:%M:%S'))
+            timestamp_end = datetime.fromtimestamp(response['finishesAt'] / 1000)
+            current_pass.append(timestamp_end.strftime('%Y-%m-%d %H:%M:%S'))
             all_passes.append(current_pass)
         except(Exception):
             continue
@@ -49,7 +55,7 @@ def tournament_to_csv(tournament):
 
     with open(file_name, 'w') as fp:
         csvw = csv.writer(fp, delimiter='|')
-        csvw.writerow(['tournament id', 'fullName', 'variant', 'perf', 'maxRating', 'winner id', 'winner name', 'duration'])
+        csvw.writerow(['tournament id', 'fullName', 'variant', 'perf', 'maxRating', 'winner id', 'winner name', 'duration', 'startsAt', 'finishesAt'])
         csvw.writerows(tournament)
     
     fp.close()
