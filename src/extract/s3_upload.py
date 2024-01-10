@@ -3,8 +3,7 @@ import boto3
 
 def csv_to_s3(csv_file):
     '''
-    Takes a csv file as an argument and uploads it to an s3 bucket based on the
-    information present in pipeline.conf(file not uploaded to github for security reasons)
+    Takes a csv file as an argument and uploads it to an s3 bucket 
     '''
     parser = configparser.ConfigParser()
     parser.read("/home/jerp/repos/pipeline/pipeline.conf")
@@ -30,7 +29,11 @@ def csv_to_s3(csv_file):
 
 if __name__ == '__main__':
     from tournament_extract import extract_tournament, tournament_to_csv
+    from winner_games_extract import extract_winner_games, winner_games_to_csv
 
     array = extract_tournament()
     csv_file = tournament_to_csv(array)
     csv_to_s3(csv_file)
+
+    #TODO: write function that takes each game winner from extract_tournament and inputs them into extract_winner_games
+    # write the csv file to the s3 bucket
