@@ -1,9 +1,15 @@
 import configparser
 import boto3
 
-def csv_to_s3(csv_file):
+def csv_to_s3(csv_file: str) -> None:
     '''
-    Takes a csv file as an argument and uploads it to an s3 bucket 
+    Uploads a csv file to S3
+
+    Parameters:
+        csv_file(str): name of the csv file
+    
+    Returns:
+        None: the function uploads a file to S3, no returning required
     '''
     parser = configparser.ConfigParser()
     parser.read("/home/jerp/repos/pipeline/pipeline.conf")

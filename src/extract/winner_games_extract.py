@@ -3,11 +3,30 @@ import requests
 import csv
 from datetime import datetime
 
-def extract_winner_games(winner, tournament_id):
+def extract_winner_games(winner: str, tournament_id: str) -> list:
     '''
-    Extracts tournament id, game id, variant, duration, ECO, opening name, 
-    ply(amount of moves that followed an opening), white player, black player,
-    status (how game was ended), winner (white or black)
+    Extracts values of games of the winner of a tournament in the tournament
+    corresponding to the tournament ID
+
+    Parameters:
+        winner(str): winner name
+        tournament_id(str): ID of desired tournament
+
+    Returns:
+        List: a list of lists with information of the winner's games in the
+            tournament:
+                tournament id, 
+                game id, 
+                variant, 
+                duration, 
+                ECO, 
+                opening name, 
+                ply(amount of moves that followed an opening), 
+                white player (name), 
+                black player (name),
+                status (how game was ended), 
+                winner (white or black)
+            note**(all in order)
     '''
     response = requests.get(
     f'https://lichess.org/api/tournament/{tournament_id}/games',
@@ -61,10 +80,18 @@ def extract_winner_games(winner, tournament_id):
 
     return all_passes
 
-def winner_games_to_csv(winner_games):
+def winner_games_to_csv(winner_games: list) -> str:
     '''
-    Takes in a winner_game argument and turns it into a csv file w/ a name
-    corresponding to the current time it was made
+    Turns a list of the winner's games and its corresponding information
+    and turns it into a csv file stored in folder 'games'
+
+    Parameters:
+        winner_games(list): a list of lists containing the information of the
+            winner's games
+    
+    Returns:
+        String: name of the csv file created with format: 
+            'games/' + datetime file was created + '.csv'
     '''
     current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     str_current_datetime = str(current_datetime)

@@ -3,12 +3,25 @@ import json
 import csv
 from datetime import datetime
 
-def extract_tournament():
+def extract_tournament() -> list:
     '''
-    Extracts tournament id, fullName, variant, perf(bullet, rapid, etc.),
-    maxRating(if applicable), winner id and name, duration
-    from url and returns information as lists within a list 
-    for inputting into a csv file
+    Extracts response from lichess API and creates a list containing the 
+    information
+
+    Parameters:
+        None
+
+    Returns:
+        list: a list of lists with each inner list containing values for: 
+            tournament id, 
+            fullName, 
+            variant, 
+            perf(bullet, rapid, etc.),
+            maxRating(if applicable), 
+            winner id,
+            winner name, 
+            duration 
+                note**(all in order)
     '''
     response = requests.get('https://lichess.org/api/tournament')
     response_json = json.loads(response.content)
@@ -48,10 +61,18 @@ def extract_tournament():
     return all_passes
 
 
-def tournament_to_csv(tournament):
+def tournament_to_csv(tournament: list) -> str:
     '''
-    Takes in a tournament argument and turns it into a csv file
-    w/ a name corresponding to the current time it was made
+    Turns a list of tournament values and converts it into a csv file, stored 
+    in folder 'tournament'
+
+    Parameters:
+        tournament(list): list of lists containing the values of the 
+            tournament
+    
+    Returns:
+        String: the name of the csv file that was created w/ format for name:
+        'tournament' + the datetime the file was created + '.csv'
     '''
     current_datetime = datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     str_current_datetime = str(current_datetime)
